@@ -1,6 +1,7 @@
 
 import { Job } from '../models/job.model.js';
 import { Company } from './../models/company.model.js';
+import { buildPageResponse, getPagination, getSort } from '../utils/pagination.js';
 
 
 
@@ -103,34 +104,51 @@ export const createCompany = async (req, res) => {
 
 export const getAllCompanies = async (req, res) => {
   try {
-   
-    const jobCounts = await Job.aggregate([
+    const { page, limit, skip } = getPagination(req.query, 9);
+    const sort = getSort(req.query, { createdAt: 1, name: 1 }, { createdAt: -1 });
+    const filter = {};
+    if (req.query.industry) {
+      filter.industry = req.query.industry;
+    }
+    if (req.query.search || req.query.keyword) {
+      filter.name = { $regex: req.query.search || req.query.keyword, $options: "i" };
+    }
+    if (req.query.location) {
+      const regex = { $regex: req.query.location, $options: "i" };
+      filter.$or = [{ location: regex }, { city: regex }, { country: regex }];
+    }
+
+    const [companies, total] = await Promise.all([
+      Company.find(filter)
+        .sort(sort)
+        .skip(skip)
+        .limit(limit)
+        .populate("createdBy", "name email"),
+      Company.countDocuments(filter),
+    ]);
+
+    const pageIds = companies.map((company) => company._id);
+    const jobCounts = pageIds.length > 0 ? await Job.aggregate([
+      { $match: { company: { $in: pageIds } } },
       {
         $group: {
-          _id: "$company",  
+          _id: "$company",
           openings: { $sum: 1 }
         }
       }
-    ]);
+    ]) : [];
 
-    
     const jobCountMap = {};
     jobCounts.forEach(j => {
       jobCountMap[j._id.toString()] = j.openings;
     });
 
-    
-    const companies = await Company.find()
-    .sort({ createdAt: -1 })
-    .populate("createdBy", "name email");
-
-  
     const results = companies.map(company => ({
       ...company._doc,
       openings: jobCountMap[company._id.toString()] || 0
     }));
 
-    res.status(200).json({ success: true, companies: results });
+    res.status(200).json(buildPageResponse({ items: results, total, page, limit, key: "companies" }));
 
   } catch (err) {
     console.error(err);

@@ -1,6 +1,6 @@
 
 import express from "express";
-import { resumebuilderController } from "../controllers/resumeBuilder.controller.js";
+import { resumebuilderController } from "../controllers/resumebuilder.controller.js";
 
 
 

@@ -1,8 +1,8 @@
 import express from "express";
-import { verifyToken } from './../middlewares/VerifyToken.js';
+import { verifyToken } from './../middlewares/verifytoken.js';
 import { applyToJob, getAllApplicationsForEmployer, getApplicationsForJob, getMyApplications, updateApplicationStatus } from "../controllers/application.controller.js";
 import { requireJobSeeker } from "../middlewares/requirejobseeker.js";
-import { requireEmployer } from './../middlewares/requireEmployer.js';
+import { requireEmployer } from './../middlewares/requireemployer.js';
 
 const router = express.Router();
 

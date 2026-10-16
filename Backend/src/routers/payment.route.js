@@ -1,5 +1,5 @@
 import  express  from 'express';
-import { paymentController } from '../controllers/payment.Controller.js';
+import { paymentController } from '../controllers/payment.controller.js';
 
 
 

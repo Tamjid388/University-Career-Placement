@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { createApply, fetchAllApplicationBySingleCompany, fetchJobSeekerApplication } from "../api/application.js";
 
 
@@ -16,17 +16,19 @@ export const UseCreateApply = () => {
 };
 
 
-export const UseMyCompanyApplications = () => {
+export const UseMyCompanyApplications = (params = {}) => {
   return useQuery({
-    queryKey: ['all-applications'],
-    queryFn: fetchAllApplicationBySingleCompany,
+    queryKey: ['all-applications', params],
+    queryFn: () => fetchAllApplicationBySingleCompany(params),
+    placeholderData: keepPreviousData,
   });
 };
 
 
-export const UseJobSeekerApplications = () => {
+export const UseJobSeekerApplications = (params = {}) => {
   return useQuery({
-    queryKey: ['applications'],
-    queryFn: fetchJobSeekerApplication,
+    queryKey: ['applications', params],
+    queryFn: () => fetchJobSeekerApplication(params),
+    placeholderData: keepPreviousData,
   });
 };

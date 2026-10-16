@@ -1,11 +1,12 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { CreateInterviewShedule, fetchInterview } from "../api/interview.js";
 
 
-export const UseInterviewSheddule = () => {
+export const UseInterviewSheddule = (params = {}) => {
   return useQuery({
-    queryKey: ['interview'],
-    queryFn: fetchInterview,
+    queryKey: ['interview', params],
+    queryFn: () => fetchInterview(params),
+    placeholderData: keepPreviousData,
   });
 };
 

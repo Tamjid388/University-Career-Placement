@@ -1,8 +1,8 @@
 import axiosInstance from "./axiosInstance.js";
 
 
-export const fetchInterview = async () => {
-  const res = await axiosInstance.get('/interviews/employer');
+export const fetchInterview = async (params = {}) => {
+  const res = await axiosInstance.get('/interviews/employer', { params });
   return res.data;
 };
 

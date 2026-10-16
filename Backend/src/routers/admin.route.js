@@ -1,7 +1,7 @@
 import  express  from 'express';
-import { verifyToken } from '../middlewares/VerifyToken.js';
-import { checkAdmin } from '../middlewares/checkRole.js';
-import {  deleteCompany,deleteJobByAdmin, deleteUserById, getAllAppliedJobs, getAllCompanies, getAllUsers,  getCompanyById, updateCompanyByAdmin } from '../controllers/AdminController.js';
+import { verifyToken } from '../middlewares/verifytoken.js';
+import { checkAdmin } from '../middlewares/checkrole.js';
+import {  deleteCompany,deleteJobByAdmin, deleteUserById, getAllAppliedJobs, getAllCompanies, getAllUsers,  getCompanyById, updateCompanyByAdmin } from '../controllers/admin.controller.js';
 import {  getAllJobs, getJobById } from '../controllers/job.controller.js';
 
 const router = express.Router();

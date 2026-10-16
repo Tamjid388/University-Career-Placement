@@ -1,14 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { deleteSingleCompanyByAdmin, deletesingleJobsByAdmin, deleteUserByAdmin, fetchAdminAllApplication, fetchAdminAllCompany, fetchAdminAllJobs, fetchAdminAllUsers, fetchSingleCompanyByAdmin, fetchSingleJobsByAdmin, UpdateSingleCompanyByAdmin } from "../api/admin.js";
 import { updateJobStatus } from "../api/jobs.js";
 
 
 //user
 
-export const UseAdminAllUser = () => {
+export const UseAdminAllUser = (params = {}) => {
   return useQuery({
-    queryKey: ['admin-user'],
-    queryFn: fetchAdminAllUsers,
+    queryKey: ['admin-user', params],
+    queryFn: () => fetchAdminAllUsers(params),
+    placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 5, 
   refetchOnWindowFocus: false,
   });
@@ -29,10 +30,11 @@ export const UseAdminDeleteUser = () => {
 
 //jobs
 
-export const UseFetchAllJobByAdmin = () => {
+export const UseFetchAllJobByAdmin = (params = {}) => {
   return useQuery({
-    queryKey: ['admin-job'],
-    queryFn: fetchAdminAllJobs,
+    queryKey: ['admin-job', params],
+    queryFn: () => fetchAdminAllJobs(params),
+    placeholderData: keepPreviousData,
   });
 };
 
@@ -62,10 +64,11 @@ export const useDeleteJobByAdmin = () => {
 
 //company
 
-export const UsefetchAllCompanyByAdmin = () => {
+export const UsefetchAllCompanyByAdmin = (params = {}) => {
   return useQuery({
-    queryKey: ['admin-company'],
-    queryFn: fetchAdminAllCompany,
+    queryKey: ['admin-company', params],
+    queryFn: () => fetchAdminAllCompany(params),
+    placeholderData: keepPreviousData,
   });
 };
 
@@ -106,10 +109,11 @@ export const UseUpdateSingleCompanyByAdmin = () => {
 
 
 //application
-export const UseFetchAllApplicationByAdmin = () => {
+export const UseFetchAllApplicationByAdmin = (params = {}) => {
   return useQuery({
-    queryKey: ['admin-application'],
-    queryFn: fetchAdminAllApplication,
+    queryKey: ['admin-application', params],
+    queryFn: () => fetchAdminAllApplication(params),
+    placeholderData: keepPreviousData,
   });
 };
 

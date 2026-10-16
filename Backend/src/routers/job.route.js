@@ -1,9 +1,9 @@
 
 import express from 'express';
 import { createJob, deleteJob, getAllJobs, getAllJobsForAdmin, getJobById, getMyJobs, getRecommendedJobs, searchJobs, updateJob, updateJobStatus } from '../controllers/job.controller.js';
-import { verifyToken } from '../middlewares/VerifyToken.js';
-import { requireEmployer } from './../middlewares/requireEmployer.js';
-import { checkAdmin } from '../middlewares/checkRole.js';
+import { verifyToken } from '../middlewares/verifytoken.js';
+import { requireEmployer } from './../middlewares/requireemployer.js';
+import { checkAdmin } from '../middlewares/checkrole.js';
 
 const router = express.Router();
 router.get("/", getAllJobs);         // Get all jobs, no filters

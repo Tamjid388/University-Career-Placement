@@ -2,15 +2,16 @@
 import axiosInstance from "./axiosInstance.js";
 
 
-export const fetchJobs = async () => {
-  const res = await axiosInstance.get('/job');
+export const fetchJobs = async (params = {}) => {
+  const res = await axiosInstance.get('/job', { params });
   return res.data;
 };
 //for admin
-export const fetchJobsForAdmin = async () => {
+export const fetchJobsForAdmin = async (params = {}) => {
   try {
-    const res = await axiosInstance.get('/job/admin/alljobs');
-    return res.data;
+    const res = await axiosInstance.get('/job/admin/alljobs', { params });
+    const data = res.data;
+    return Array.isArray(data) ? { success: true, jobs: data, total: data.length, page: 1, limit: data.length, totalPages: 1 } : data;
   } catch (error) {
     console.error("Failed to fetch admin jobs:", error);
     throw error;
@@ -39,8 +40,8 @@ export const fetchSingleJobs = async (id) => {
 };
 
 
-export const fetchSingleMyJobs = async () => {
-  const res = await axiosInstance.get('/job/my-jobs');
+export const fetchSingleMyJobs = async (params = {}) => {
+  const res = await axiosInstance.get('/job/my-jobs', { params });
   return res.data;
 };
 
@@ -63,14 +64,12 @@ export const deleteJob = async (id) => {
 };
 
 
-export const fetchSearchJobs = async (title, location) => {
+export const fetchSearchJobs = async (params = {}) => {
+  const normalized = typeof params === "string" ? { title: params } : params;
   const res = await axiosInstance.get("/job/search", {
-    params: {
-      title,
-      location,
-    },
+    params: normalized,
   });
-  return res.data.jobs; 
+  return res.data;
 }
 //admin
 

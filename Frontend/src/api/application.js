@@ -5,14 +5,14 @@ export const fetchApplication = async () => {
   const res = await axiosInstance.get('/application');
   return res.data;
 };
-export const fetchJobSeekerApplication = async () => {
-  const res = await axiosInstance.get('/application/my');
+export const fetchJobSeekerApplication = async (params = {}) => {
+  const res = await axiosInstance.get('/application/my', { params });
   return res.data;
 };
 
 
-export const fetchAllApplicationBySingleCompany = async () => {
-  const res = await axiosInstance.get('/application/all-applications');
+export const fetchAllApplicationBySingleCompany = async (params = {}) => {
+  const res = await axiosInstance.get('/application/all-applications', { params });
   return res.data;
 };
 

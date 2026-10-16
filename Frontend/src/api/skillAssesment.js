@@ -9,6 +9,27 @@ try {
   throw error
 }
 }
+// Update skill (admin)
+export const updateSkill=async(id,data)=>{
+try {
+  const res=await axiosInstance.put(`/skillAssesment/${id}`,data)
+  return res.data
+} catch (error) {
+  console.error('Error Updating Skill',error.response?.data || error.message)
+  throw error
+}
+}
+
+// Delete skill + its assessments (admin)
+export const deleteSkill=async(id)=>{
+try {
+  const res=await axiosInstance.delete(`/skillAssesment/${id}`)
+  return res.data
+} catch (error) {
+  console.error('Error Deleting Skill',error.response?.data || error.message)
+  throw error
+}
+}
 // //Create Skill Assesment(Add quistions)
 
 export const createAssessment=async(data)=>{

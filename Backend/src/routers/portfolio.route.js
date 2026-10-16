@@ -4,7 +4,7 @@ import {
   getMyPortfolio,
   getPortfolioBySlug,
 } from "../controllers/portfolio.controller.js";
-import { verifyToken } from "../middlewares/VerifyToken.js";
+import { verifyToken } from "../middlewares/verifytoken.js";
 import { requireJobSeeker } from "../middlewares/requirejobseeker.js";
 
 const router = express.Router();

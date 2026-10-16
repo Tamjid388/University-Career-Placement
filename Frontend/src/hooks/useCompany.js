@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { CreateMyCompany, fetchCompany, fetchMyCompany, fetchSingleCompany } from "../api/company.js";
 
 
@@ -25,11 +25,12 @@ export const UseCreateCompany = () => {
 
 
 // Fetch All Companies Data
-export const useFetchCompanies=()=>{
+export const useFetchCompanies=(params = {})=>{
 
   return useQuery({
-    queryKey:['fetchcompanies'],
-    queryFn:fetchCompany
+    queryKey:['fetchcompanies', params],
+    queryFn:() => fetchCompany(params),
+    placeholderData: keepPreviousData,
   })
 
 }

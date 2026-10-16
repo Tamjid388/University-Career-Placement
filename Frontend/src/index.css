@@ -16,6 +16,53 @@
     --color-text: #333333;
     --font-poppins: "Poppins", sans-serif;
     --font-roboto: "Roboto", sans-serif;
+    /* Segment 1 brand tokens (H4): single primary + single gradient */
+    --color-brand-50: #F5EDFF;
+    --color-brand-100: #EFE2F8;
+    --color-brand-200: #DDC5F5;
+    --color-brand-600: #6300B3;
+    --color-brand-700: #4E0090;
+    --color-brand-gradient-from: #7405DE;
+    --color-brand-gradient-to: #A626EC;
+}
+@layer components {
+  /* Segment 1 (H2): single section rhythm + container */
+  .home-section {
+    @apply py-12 md:py-16;
+  }
+  .home-container {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  /* Segment 1 (H1): single type scale */
+  .section-title {
+    @apply font-poppins text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-base-content;
+  }
+  .section-subtitle {
+    @apply font-roboto mt-2 text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400;
+  }
+  .card-title {
+    @apply font-poppins text-lg font-semibold text-gray-900 dark:text-base-content;
+  }
+  .card-body-text {
+    @apply font-roboto text-sm text-gray-600 dark:text-gray-400;
+  }
+  /* Segment 1 (H4): single button system */
+  .btn-brand-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-purple-600 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-purple-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600;
+  }
+  .btn-brand-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-purple-200 bg-purple-50 px-6 py-2 text-sm font-medium text-purple-700 transition hover:bg-purple-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600;
+  }
+  .btn-brand-gradient {
+    @apply inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#7405de] to-[#a626ec] px-6 py-2 text-sm font-medium text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600;
+  }
+  /* Segment 1 (H4): single card + chip system */
+  .home-card {
+    @apply rounded-xl border border-base-300 bg-base-100 shadow-sm transition hover:shadow-md;
+  }
+  .home-chip {
+    @apply inline-flex items-center gap-1 rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-700 capitalize;
+  }
 }
 /* Custom animations for hero section */
 @layer utilities {

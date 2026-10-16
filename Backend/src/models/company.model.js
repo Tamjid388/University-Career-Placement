@@ -97,5 +97,6 @@ companySchema.pre(
   }
 );
 companySchema.index({ industry: 1 });
+companySchema.index({ createdAt: -1 });
 
 export const Company = mongoose.model("Company", companySchema);

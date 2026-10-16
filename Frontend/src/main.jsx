@@ -12,9 +12,9 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
-import { Authprovider } from "./Context/Authprovider.jsx";
-import { ProfileProvider } from "./Context/ProfileProvider.jsx";
-import { PortfolioProvider } from "./Context/PortfolioProvider.jsx";
+import { Authprovider } from "./context/Authprovider.jsx";
+import { ProfileProvider } from "./context/ProfileProvider.jsx";
+import { PortfolioProvider } from "./context/PortfolioProvider.jsx";
 
 
 // Create a client

@@ -1,21 +1,55 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createAssessment, createSkill, getAllAssesmentBySkillId, getAllSkillAssessments,
+   deleteSkill,
    getAssessmentQuestions,
    startSkillAssessment, 
    submitAnswers,
-   submitSkillAssessment} from "../api/skillAssesment";
+   submitSkillAssessment,
+   updateSkill} from "../api/skillAssesment";
 import Swal from "sweetalert2";
 
 //Create Skill
 
 export const useCreateSkill = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => createSkill(data),
     onSuccess: (res) => {
       console.log("Skill Created Successfully", res);
+      queryClient.invalidateQueries({ queryKey: ["skillAssessments"] });
     },
     onError: (err) => {
       console.error("Failed to Create Skill", err);
+    },
+  });
+};
+
+//Update Skill (admin)
+export const useUpdateSkill = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, data }) => updateSkill(id, data),
+    onSuccess: (res) => {
+      console.log("Skill Updated Successfully", res);
+      queryClient.invalidateQueries({ queryKey: ["skillAssessments"] });
+    },
+    onError: (err) => {
+      console.error("Failed to Update Skill", err);
+    },
+  });
+};
+
+//Delete Skill (admin)
+export const useDeleteSkill = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id) => deleteSkill(id),
+    onSuccess: (res) => {
+      console.log("Skill Deleted Successfully", res);
+      queryClient.invalidateQueries({ queryKey: ["skillAssessments"] });
+    },
+    onError: (err) => {
+      console.error("Failed to Delete Skill", err);
     },
   });
 };

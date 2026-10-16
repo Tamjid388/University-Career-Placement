@@ -2,8 +2,8 @@ import axiosInstance from "./axiosInstance.js";
 
 
 //user
-export const fetchAdminAllUsers = async () => {
-  const res = await axiosInstance.get('/admin/user');
+export const fetchAdminAllUsers = async (params = {}) => {
+  const res = await axiosInstance.get('/admin/user', { params });
   return res.data;
 };
 
@@ -16,8 +16,8 @@ export const deleteUserByAdmin = async (id) => {
 
 //jobs
 
-export const fetchAdminAllJobs = async () => {
-  const res = await axiosInstance.get('/admin/job');
+export const fetchAdminAllJobs = async (params = {}) => {
+  const res = await axiosInstance.get('/admin/job', { params });
   return res.data;
 };
 
@@ -35,8 +35,8 @@ export const deletesingleJobsByAdmin = async (id) => {
 
 //company
 
-export const fetchAdminAllCompany = async () => {
-  const res = await axiosInstance.get('/admin/company');
+export const fetchAdminAllCompany = async (params = {}) => {
+  const res = await axiosInstance.get('/admin/company', { params });
   return res.data;
 };
 
@@ -63,7 +63,7 @@ export const deleteSingleCompanyByAdmin = async (id) => {
 
 
 //application
-export const fetchAdminAllApplication = async () => {
-  const res = await axiosInstance.get('/admin/application');
+export const fetchAdminAllApplication = async (params = {}) => {
+  const res = await axiosInstance.get('/admin/application', { params });
   return res.data;
 };

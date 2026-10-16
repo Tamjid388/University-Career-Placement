@@ -12,4 +12,7 @@ const interviewSchema = new mongoose.Schema({
   notes: { type: String },
 }, { timestamps: true });
 
+interviewSchema.index({ employerId: 1, scheduledAt: -1 });
+interviewSchema.index({ jobId: 1, candidateId: 1 });
+
 export default mongoose.model('Interview', interviewSchema);

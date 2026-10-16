@@ -1,7 +1,7 @@
 import express from "express";
 import { createCompany, deleteCompany, getAllCompanies, getCompanyById, getMyCompany, updateCompany } from "../controllers/company.controller.js";
-import { verifyToken } from "../middlewares/VerifyToken.js";
-import { requireEmployer } from "../middlewares/requireEmployer.js";
+import { verifyToken } from "../middlewares/verifytoken.js";
+import { requireEmployer } from "../middlewares/requireemployer.js";
 
 
 

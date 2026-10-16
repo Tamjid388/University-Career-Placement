@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "seed:jobs": "node src/seed/seedJobsNext12Months.js",
+    "seed:skills": "node src/seed/seedSkills.js",
+    "seed:logos": "node src/seed/setCompanyLogos.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

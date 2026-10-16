@@ -1,27 +1,30 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 
 import { createJob, deleteJob, fetchJobs, fetchJobsForAdmin, fetchRelatedJobs,  fetchSearchJobs,  fetchSingleJobs, fetchSingleMyJobs, updateJob } from "../api/jobs.js";
 
 
 
-export const UseJobs = () => {
+export const UseJobs = (params = {}) => {
   return useQuery({
-    queryKey: ['job'],
-    queryFn: fetchJobs,
+    queryKey: ['jobs', params],
+    queryFn: () => fetchJobs(params),
+    placeholderData: keepPreviousData,
   });
 };
-export const UseJobsForAdmin = () => { //for admin
+export const UseJobsForAdmin = (params = {}) => { //for admin
   return useQuery({
-    queryKey: ['job'],
-    queryFn: fetchJobsForAdmin,
+    queryKey: ['job', 'admin', params],
+    queryFn: () => fetchJobsForAdmin(params),
+    placeholderData: keepPreviousData,
   });
 };
 
 
-export const UseMyJobs = () => {
+export const UseMyJobs = (params = {}) => {
   return useQuery({
-    queryKey: ['my-jobs'],
-    queryFn: fetchSingleMyJobs,
+    queryKey: ['my-jobs', params],
+    queryFn: () => fetchSingleMyJobs(params),
+    placeholderData: keepPreviousData,
   });
 };
 
@@ -53,7 +56,8 @@ export const UseCreateJob = () => {
   return useMutation({
     mutationFn: createJob,
     onSuccess: () => {
-      queryClient.invalidateQueries(['job']); // refetch job list
+      queryClient.invalidateQueries({ queryKey: ['jobs'], exact: false });
+      queryClient.invalidateQueries({ queryKey: ['job'], exact: false });
     },
   });
 };
@@ -66,7 +70,8 @@ export const UseUpdateJob = () => {
   return useMutation({
     mutationFn: updateJob,
     onSuccess: () => {
-      queryClient.invalidateQueries(['job']);
+      queryClient.invalidateQueries({ queryKey: ['jobs'], exact: false });
+      queryClient.invalidateQueries({ queryKey: ['job'], exact: false });
     },
   });
 };
@@ -78,7 +83,8 @@ export const UseDeleteJob = () => {
   return useMutation({
     mutationFn: deleteJob,
     onSuccess: () => {
-      queryClient.invalidateQueries(['job']);
+      queryClient.invalidateQueries({ queryKey: ['jobs'], exact: false });
+      queryClient.invalidateQueries({ queryKey: ['job'], exact: false });
     },
   });
 };
@@ -87,11 +93,14 @@ export const UseDeleteJob = () => {
 
 
 
-export const UseSearchJobs = (title, location) => {
+export const UseSearchJobs = (filters = {}) => {
+  const params = typeof filters === "string" ? { title: filters } : filters;
+  const hasFilter = Object.values(params || {}).some((value) => String(value ?? "").trim() !== "");
   return useQuery({
-    queryKey: ["searchJobs", title, location],
-    queryFn: () => fetchSearchJobs(title, location),
-    enabled: !!title?.trim(),
+    queryKey: ["searchJobs", params],
+    queryFn: () => fetchSearchJobs(params),
+    enabled: hasFilter,
+    placeholderData: keepPreviousData,
   });
 };
 

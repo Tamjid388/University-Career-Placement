@@ -2,8 +2,8 @@
 import axiosInstance from "./axiosInstance.js";
 
 
-export const fetchCompany = async () => {
-  const res = await axiosInstance.get('/company');
+export const fetchCompany = async (params = {}) => {
+  const res = await axiosInstance.get('/company', { params });
   return res.data;
 };
 

@@ -2,17 +2,26 @@ import express from "express";
 import { skillAssessmentController } from "../controllers/skillassesment.controller.js";
 import { verifyToken } from "../middlewares/verifytoken.js";
 import { checkAdmin } from "../middlewares/checkrole.js";
+import { validate } from "../middlewares/validate.js";
+import {
+  createAssessmentSchema,
+  createSkillSchema,
+  startAttemptSchema,
+  submitAnswersSchema,
+  updateSkillSchema,
+} from "../validations/skillassesment.schema.js";
 
 const router = express.Router();
 
-router.post("/", skillAssessmentController.createSkillAssessment);
+router.post("/", validate(createSkillSchema), skillAssessmentController.createSkillAssessment);
 router.get("/", skillAssessmentController.getSkills);
-router.put("/:id", verifyToken, checkAdmin, skillAssessmentController.updateSkill);
+router.put("/:id", verifyToken, checkAdmin, validate(updateSkillSchema), skillAssessmentController.updateSkill);
 router.delete("/:id", verifyToken, checkAdmin, skillAssessmentController.deleteSkill);
-router.post("/createassesment", skillAssessmentController.createassesment);
+router.post("/createassesment", validate(createAssessmentSchema), skillAssessmentController.createassesment);
 router.get("/skills/:skillId", skillAssessmentController.getAssessmentsBySkill);
 router.post(
   "/assessments/:assessmentId/start",
+  validate(startAttemptSchema),
   skillAssessmentController.startAttempt
 );
 router.get(
@@ -25,6 +34,7 @@ router.get(
 );
 router.post(
   "/attempts/:attemptId/answers",
+  validate(submitAnswersSchema),
   skillAssessmentController.submitAnswers
 );
 router.post(

@@ -1,0 +1,51 @@
+import { z } from "zod";
+
+const industryEnum = z.enum([
+  "Information Technology",
+  "Healthcare",
+  "Education",
+  "Finance & Banking",
+  "Manufacturing",
+  "Construction",
+  "Transportation & Logistics",
+  "Retail & E-commerce",
+  "Telecommunications",
+  "Media & Entertainment",
+  "Energy & Utilities",
+  "Agriculture",
+  "Real Estate",
+  "Government & Public Sector",
+  "Hospitality & Tourism",
+  "Legal Services",
+  "Non-Profit / NGOs",
+  "Aerospace & Defense",
+  "Automotive",
+  "Biotechnology & Pharmaceuticals",
+  "Software",
+  "others",
+]);
+
+export const createCompanySchema = z.object({
+  name: z.string().trim().min(1, "Company name is required"),
+  industry: industryEnum,
+  employees: z.enum(["1-25", "26-50", "51-100", "100-500"]),
+  contactPersonName: z.string().trim().min(1),
+  contactPersonDesignation: z.string().trim().min(1),
+  contactPersonEmail: z.string().trim().email(),
+  contactPersonMobile: z.string().trim().min(1),
+  description: z.string().trim().min(1, "Description is required"),
+  location: z.string().optional(),
+  city: z.string().optional(),
+  country: z.string().optional(),
+  websiteUrl: z.string().optional(),
+  logo: z.string().optional(),
+  cover: z.string().optional(),
+  establishment: z.string().optional(),
+  facebookUrl: z.string().optional(),
+  twitterUrl: z.string().optional(),
+  linkedinUrl: z.string().optional(),
+  trusted: z.enum(["verified", "notverified"]).optional(),
+  badges: z.enum(["trusted", "top-recuiter", "regular-recuiter"]).optional(),
+});
+
+export const updateCompanySchema = createCompanySchema.partial();

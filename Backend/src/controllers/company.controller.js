@@ -1,291 +1,32 @@
+import * as companyService from "../services/company.service.js";
+import { catchAsync } from "../utils/catchAsync.js";
 
-import { Job } from '../models/job.model.js';
-import { Company } from './../models/company.model.js';
-import { buildPageResponse, getPagination, getSort } from '../utils/pagination.js';
+export const createCompany = catchAsync(async (req, res) => {
+  const company = await companyService.createCompany(req.user, req.body);
+  return res.status(201).json({ success: true, message: "Company profile created successfully", company });
+});
 
+export const getAllCompanies = catchAsync(async (req, res) => {
+  const data = await companyService.getAllCompanies(req.query);
+  res.status(200).json({ success: true, ...data });
+});
 
+export const getCompanyById = catchAsync(async (req, res) => {
+  const company = await companyService.getCompanyById(req.params.id);
+  res.status(200).json({ success: true, company });
+});
 
+export const updateCompany = catchAsync(async (req, res) => {
+  const company = await companyService.updateCompany(req.user, req.params.id, req.body);
+  res.status(200).json({ success: true, message: "Company updated successfully.", company });
+});
 
+export const deleteCompany = catchAsync(async (req, res) => {
+  await companyService.deleteCompany(req.user, req.params.id);
+  res.status(200).json({ success: true, message: "Company deleted." });
+});
 
-
-export const createCompany = async (req, res) => {
-  try {
-    console.log("Request Body:", req.body);
-    // Check user authentication and role
-    if (!req.user || !req.user.id) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
-    if (req.user.role !== "employer") {
-      return res.status(403).json({
-        success: false,
-        message: "Only employers can create a company profile",
-      });
-    }
-
-    // Destructure all expected fields from req.body
-    const {
-      name,
-      location,
-      industry,
-      websiteUrl,
-      logo,
-      description,
-      establishment,
-      employees,
-      country,
-      contactPersonName,
-      contactPersonDesignation,
-      contactPersonEmail,
-      contactPersonMobile,
-      facebookUrl,
-      twitterUrl,
-      city,
-      cover,
-      trusted,
-      badges,
-      linkedinUrl,
-    } = req.body;
-
-    // Create new company document with all fields
-    const newCompany = new Company({
-      name,
-      location,
-      industry,
-      websiteUrl,
-      logo,
-      description,
-      establishment,
-      employees,
-      country,
-      contactPersonName,
-      contactPersonDesignation,
-      contactPersonEmail,
-      contactPersonMobile,
-      facebookUrl,
-      twitterUrl,
-      linkedinUrl,
-      city,
-      cover,
-       trusted,
-      badges,
-      createdBy: req.user.id,
-     
-    });
-
-    await newCompany.save();
-
-
-    return res.status(201).json({
-      success: true,
-      message: "Company profile created successfully",
-      company: newCompany,
-    });
-  } catch (error) {
-    console.error("Company creation error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to create company",
-      error: error.message,
-    });
-  }
-};
-
-
-// Get all companies (public)
-// export const getAllCompanies = async (req, res) => {
-//   try {
-//     const companies = await Company.find().populate('createdBy', 'name email');
-//     res.status(200).json({ success: true, companies });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ success: false, message: 'Server error.' });
-//   }
-// }
-
-export const getAllCompanies = async (req, res) => {
-  try {
-    const { page, limit, skip } = getPagination(req.query, 9);
-    const sort = getSort(req.query, { createdAt: 1, name: 1 }, { createdAt: -1 });
-    const filter = {};
-    if (req.query.industry) {
-      filter.industry = req.query.industry;
-    }
-    if (req.query.search || req.query.keyword) {
-      filter.name = { $regex: req.query.search || req.query.keyword, $options: "i" };
-    }
-    if (req.query.location) {
-      const regex = { $regex: req.query.location, $options: "i" };
-      filter.$or = [{ location: regex }, { city: regex }, { country: regex }];
-    }
-
-    const [companies, total] = await Promise.all([
-      Company.find(filter)
-        .sort(sort)
-        .skip(skip)
-        .limit(limit)
-        .populate("createdBy", "name email"),
-      Company.countDocuments(filter),
-    ]);
-
-    const pageIds = companies.map((company) => company._id);
-    const jobCounts = pageIds.length > 0 ? await Job.aggregate([
-      { $match: { company: { $in: pageIds } } },
-      {
-        $group: {
-          _id: "$company",
-          openings: { $sum: 1 }
-        }
-      }
-    ]) : [];
-
-    const jobCountMap = {};
-    jobCounts.forEach(j => {
-      jobCountMap[j._id.toString()] = j.openings;
-    });
-
-    const results = companies.map(company => ({
-      ...company._doc,
-      openings: jobCountMap[company._id.toString()] || 0
-    }));
-
-    res.status(200).json(buildPageResponse({ items: results, total, page, limit, key: "companies" }));
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: "Server error." });
-  }
-};
-
-// Get a single company by ID (public)
-export const getCompanyById = async (req, res) => {
-  try {
-    const company = await Company.findById(req.params.id)
-      .populate('createdBy', 'name email');
-    if (!company) {
-      return res.status(404).json({ success: false, message: 'Company not found.' });
-    }
-    res.status(200).json({ success: true, company });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: 'Server error.' });
-  }
-};
-
-// Update a company (only the creator can update it)
-export const updateCompany = async (req, res) => {
-  console.log('req.user:', req.user);
-  console.log('req.cookies:', req.cookies);
-
-  try {
-    const { id } = req.params;
-
-    const company = await Company.findById(id);
-    if (!company) {
-      return res.status(404).json({ success: false, message: 'Company not found.' });
-    }
-
-    // Ensure the logged-in user is the creator
-    if (company.createdBy.toString() !== req.user.id) {
-      return res.status(403).json({ success: false, message: 'Not authorized to update this company.' });
-    }
-
-    // Allowed fields to update
-    const allowedUpdates = [
-      'name',
-      'location',
-      'industry',
-      'websiteurl',
-      'logo',
-      'city',
-      'description',
-      'establishment',
-      'employees',
-      'country',
-      'Contact_Person_Name',
-      'Contact_Person_Designation',
-      'Contact_Person_email',
-      'Contact_Person_mobile',
-      'facebookurl',
-      'twittweurl',
-      'linkdinurl',
-      'cover',
-
-    ];
-
-    allowedUpdates.forEach((field) => {
-      if (req.body[field] !== undefined) {
-        company[field] = req.body[field];
-      }
-    });
-
-    await company.save();
-
-    res.status(200).json({
-      success: true,
-      message: 'Company updated successfully.',
-      company,
-    });
-
-  } catch (err) {
-    console.error('Update error:', err);
-    res.status(500).json({ success: false, message: 'Server error.' });
-  }
-};
-
-
-
-// Delete a company (owner only)
-export const deleteCompany = async (req, res) => {
-  try {
-    const company = await Company.findById(req.params.id);
-    if (!company) {
-      return res.status(404).json({ success: false, message: 'Company not found.' });
-    }
-
-    // Compare ObjectIds safely
-    if (!company.createdBy.equals(req.user.id)) {
-      return res.status(403).json({ success: false, message: 'Not authorized.' });
-    }
-
-    await company.deleteOne(); // Or company.remove(), both work
-    res.status(200).json({ success: true, message: 'Company deleted.' });
-  } catch (err) {
-    console.error('Delete error:', err);
-    res.status(500).json({ success: false, message: 'Server error.' });
-  }
-};
-
-
-export const getMyCompany = async (req, res) => {
-  try {
-    // Ensure user is authenticated
-    if (!req.user || !req.user.id) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
-
-    // Ensure user is an employer
-    if (req.user.role !== 'employer') {
-      return res.status(403).json({ success: false, message: "Only employers can view their company profile" });
-    }
-
-    const company = await Company.find({ createdBy: req.user.id });
-
-    if (!company) {
-      return res.status(404).json({ success: false, message: "No company profile found for this user" });
-    }
-
-    res.status(200).json({
-      success: true,
-      company,
-    });
-
-  } catch (error) {
-    console.error("Error fetching company profile:", error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch company profile",
-      error: error.message,
-    });
-  }
-};
-
+export const getMyCompany = catchAsync(async (req, res) => {
+  const company = await companyService.getMyCompanies(req.user);
+  res.status(200).json({ success: true, company });
+});

@@ -1,27 +1,15 @@
-import admin from "../config/firebaseconfig.js";
-import { UserNew } from "../models/job.model2.js";
+import * as authService from "../services/auth.service.js";
+import { catchAsync } from "../utils/catchAsync.js";
 
-export const registerUser = async (req, res) => {
-    try {
-        const { email, password, fullname, role } = req.body;
-
-        // Create Firebase user
-        const firebaseUser = await admin.auth().createUser({
-            email,
-            password,
-            displayName: fullname,
-        });
-
-        // Store user in MongoDB
-        const newUser = await UserNew.create({
-            firebaseUID: firebaseUser.uid,
-            email,
-            fullname,
-            role,
-        });
-
-        return res.status(201).json({ message: "User registered successfully", user: newUser });
-    } catch (error) {
-        return res.status(500).json({ message: "Error registering user", error });
-    }
-}
+export const registerUser = catchAsync(async (req, res) => {
+  try {
+    const { email, password, fullname, role } = req.body;
+    const newUser = await authService.registerWithFirebase({ email, password, fullname, role });
+    return res.status(201).json({ message: "User registered successfully", user: newUser });
+  } catch (error) {
+    const statusCode = error?.statusCode || 500;
+    const message = statusCode >= 500 ? "Error registering user" : error.message;
+    if (statusCode >= 500) console.error(error);
+    return res.status(statusCode).json({ message, error: statusCode >= 500 ? error.message : undefined });
+  }
+});

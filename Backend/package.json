@@ -9,7 +9,9 @@
     "seed:jobs": "node src/seed/seedJobsNext12Months.js",
     "seed:skills": "node src/seed/seedSkills.js",
     "seed:logos": "node src/seed/setCompanyLogos.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +34,13 @@
     "multer": "^1.4.5-lts.2",
     "nodemailer": "^6.10.1",
     "nodemon": "^3.1.9",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^5.0.5",
+    "mongodb-memory-server": "^11.3.0",
+    "supertest": "^7.1.3",
+    "vitest": "^5.0.5"
   }
 }

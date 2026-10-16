@@ -15,6 +15,7 @@ import resumeRoute from "./routers/resume.route.js"
 import skillassesmentRoute from "./routers/skillassesment.route.js"
 import statRoute from "./routers/stat.route.js";
 import bookmarkRoute from "./routers/bookmark.route.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 
 
@@ -56,6 +57,8 @@ app.use("/api/v1/skillAssesment",skillassesmentRoute)
 
 app.use('/api/v1/statistics',statRoute)
 app.use('/api/v1/bookmarks',bookmarkRoute)
+
+app.use(errorHandler);
 
 
 

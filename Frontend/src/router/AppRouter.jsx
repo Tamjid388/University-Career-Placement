@@ -1,65 +1,69 @@
 import { createBrowserRouter } from "react-router";
-import { SignIn } from "../Features/Authentication/SignIn";
-import { SignUp } from "../Features/Authentication/SignUp";
-import { DashBoardLayout } from "../Layouts/DashBoardLayout";
-import { MainLayouts } from "../Layouts/MainLayouts";
-import { BlogDetails } from "../Pages/BlogDetails";
-import { Home } from "../Pages/Home";
-import JobDetails from "../Pages/JobDetails.jsx";
+import { SignIn } from "../features/authentication/SignIn";
+import { SignUp } from "../features/authentication/SignUp";
+import { DashBoardLayout } from "../layouts/DashBoardLayout";
+import { MainLayouts } from "../layouts/MainLayouts";
+import { BlogDetails } from "../pages/BlogDetails";
+import { Home } from "../pages/Home";
+import JobDetails from "../pages/JobDetails.jsx";
 
-import { AdminDashboardMenu } from "../Components/Drawer/SidebarMenus/AdminSidebarMenus/AdminDashboard/AdminDashboardMenu.jsx";
-import { ManageCompany } from "../Components/Drawer/SidebarMenus/AdminSidebarMenus/ManageCompany/ManageCompany.jsx";
+import { AdminDashboardMenu } from "../components/drawer/sidebarmenus/adminsidebarmenus/admindashboard/AdminDashboardMenu.jsx";
+import { ManageCompany } from "../components/drawer/sidebarmenus/adminsidebarmenus/managecompany/ManageCompany.jsx";
 
-import AllCompany from "../Pages/company/AllCompany.jsx";
-import JobsShowAll from "../Pages/jobs/JobsShowAll.jsx";
+import AllCompany from "../pages/company/AllCompany.jsx";
+import JobsShowAll from "../pages/jobs/JobsShowAll.jsx";
+import JobSearchResults from "../pages/jobs/JobSearchResults.jsx";
 
-import { EmployerDashboardMenu } from "../Components/Drawer/SidebarMenus/EmployerSidebarMenus/EmployerDashboard/EmployerDashboardMenu.jsx";
-import { PostedJobs } from "../Components/Drawer/SidebarMenus/EmployerSidebarMenus/PostedJobs/PostedJobs.jsx";
+import { EmployerDashboardMenu } from "../components/drawer/sidebarmenus/employersidebarmenus/employerdashboard/EmployerDashboardMenu.jsx";
+import { PostedJobs } from "../components/drawer/sidebarmenus/employersidebarmenus/postedjobs/PostedJobs.jsx";
 
-import { ManageUsers } from "../Components/Drawer/SidebarMenus/AdminSidebarMenus/ManageUsers/ManageUsers.jsx";
-import { JobseekerProfile } from "../Components/Drawer/SidebarMenus/JobSeekerSidebarMenus/Profile/JobseekerProfile.jsx";
+import { ManageUsers } from "../components/drawer/sidebarmenus/adminsidebarmenus/manageusers/ManageUsers.jsx";
+import { JobseekerProfile } from "../components/drawer/sidebarmenus/jobseekersidebarmenus/profile/JobseekerProfile.jsx";
 
-import { JobSeekerDashboardMenu } from "../Components/Drawer/SidebarMenus/JobSeekerSidebarMenus/JobSeekerDashboard/JobSeekerDashboardMenu.jsx";
+import { JobSeekerDashboardMenu } from "../components/drawer/sidebarmenus/jobseekersidebarmenus/jobseekerdashboard/JobSeekerDashboardMenu.jsx";
 
-import EmployerApplication from "../Components/Drawer/SidebarMenus/EmployerSidebarMenus/EmployerCompanys/EmployerApplications/EmployerApplication.jsx";
-import EmployerCompany from "../Components/Drawer/SidebarMenus/EmployerSidebarMenus/EmployerCompanys/EmployerCompany.jsx";
-import EmployerShowAllApplication from "../Components/Drawer/SidebarMenus/EmployerSidebarMenus/EmployerInterview/EmployerShowAllApplication.jsx";
-import JobSeekerAppliedJobs from "../Components/Drawer/SidebarMenus/JobSeekerSidebarMenus/JobSeekerAppliedJobs/JobSeekerAppliedJobs.jsx";
-import EmployerSignUP from "../Features/Authentication/EmployerSignUP.jsx";
-import PortfolioLayout from "../Layouts/PortfolioLayout.jsx";
-import AllFaqs from "../Pages/AllFaqs.jsx";
-import CompanyDetails from "../Pages/company/CompanyDetails.jsx";
+import EmployerApplication from "../components/drawer/sidebarmenus/employersidebarmenus/employercompanys/employerapplications/EmployerApplication.jsx";
+import EmployerCompany from "../components/drawer/sidebarmenus/employersidebarmenus/employercompanys/EmployerCompany.jsx";
+import EmployerShowAllApplication from "../components/drawer/sidebarmenus/employersidebarmenus/employerinterview/EmployerShowAllApplication.jsx";
+import JobSeekerAppliedJobs from "../components/drawer/sidebarmenus/jobseekersidebarmenus/jobseekerappliedjobs/JobSeekerAppliedJobs.jsx";
+import EmployerSignUP from "../features/authentication/EmployerSignUP.jsx";
+import PortfolioLayout from "../layouts/PortfolioLayout.jsx";
+import AllFaqs from "../pages/AllFaqs.jsx";
+import CompanyDetails from "../pages/company/CompanyDetails.jsx";
 
-import ViewMyPortfolio from "../Pages/portfolio/ViewMyPortfolio.jsx";
+import ViewMyPortfolio from "../pages/portfolio/ViewMyPortfolio.jsx";
 
-import { CreateJob } from "./../Pages/Empoloyer/CreateJob";
-import { NotFOund } from "../Pages/NotFound/NotFOund.jsx";
-import EmployerSignIn from "../Features/Authentication/EmployerSignIn.jsx";
-import { ResumeBuilder } from "../Pages/ResumeBuilder/ResumeBuilder.jsx";
-import { SelectOption } from "../Pages/ResumeBuilder/ResumeUi/SelectOption.jsx";
-import BuildYourResume from "../Pages/ResumeBuilder/ResumeUi/BuildYourResume.jsx";
-import { ResumeProvider } from "../Context/ResumeProvider.jsx";
-import { Demo } from "../Pages/Demo/demo.jsx";
-import PaymentSuccess from "../Components/Payments/FeauturedJobPayment/PaymentSuccess.jsx";
-import PaymentFailed from "../Components/Payments/FeauturedJobPayment/PaymentFailed.jsx";
-import Paymentcancel from "../Components/Payments/FeauturedJobPayment/Paymentcancel.jsx";
+import { CreateJob } from "./../pages/empoloyer/CreateJob";
+import { NotFOund } from "../pages/notfound/NotFOund.jsx";
+import EmployerSignIn from "../features/authentication/EmployerSignIn.jsx";
+import { ResumeBuilder } from "../pages/resumebuilder/ResumeBuilder.jsx";
+import { SelectOption } from "../pages/resumebuilder/resumeui/SelectOption.jsx";
+import BuildYourResume from "../pages/resumebuilder/resumeui/BuildYourResume.jsx";
+import { ResumeProvider } from "../context/ResumeProvider.jsx";
+import { Demo } from "../pages/demo/demo.jsx";
+import PaymentSuccess from "../components/payments/feauturedjobpayment/PaymentSuccess.jsx";
+import PaymentFailed from "../components/payments/feauturedjobpayment/PaymentFailed.jsx";
+import Paymentcancel from "../components/payments/feauturedjobpayment/Paymentcancel.jsx";
 
-import FeaturedPayment from "../Pages/Payments/FeaturedPayment/FeaturedPayment.jsx";
-import { Privateroute } from "../Components/privateroute/Privateroute.jsx";
-import { ManageJobs } from "../Components/Drawer/SidebarMenus/AdminSidebarMenus/ManageJob/ManageJobs.admin.jsx";
-import { SkillAssesmentHome } from "../Pages/SkillAssesment/SkillAssesmentHome.jsx";
-import { Assesments } from "../Pages/SkillAssesment/AssesMents/Assesments.jsx";
-import { AllQuestions } from "../Pages/SkillAssesment/AllQuestions.jsx";
-import { ManageSkillAssessment } from "../Components/Drawer/SidebarMenus/AdminSidebarMenus/ManageSkillAssessment/ManageSkillAssessment.jsx";
-import BuildPortfolio from "../Pages/portfolio/BuildPortfolio.jsx";
-import { PortfolionBuilderHome } from "../Pages/portfolio/PortfolionBuilderHome.jsx";
-import { SelectPortfolioTemp } from "../Pages/portfolio/SelectPortfolioTemp.jsx";
-import { SelectedTemplate } from "../Pages/portfolio/Categories/SelectedTemplate.jsx";
-import { ManagePortfolio } from "../Components/Drawer/SidebarMenus/JobSeekerSidebarMenus/ManagePortfolio/ManagePortfolio.jsx";
-import { PublicPortfolio } from "../Pages/portfolio/Categories/PublicPortfolio.jsx";
-import { TermsAndCondition } from "../Pages/TermsAndCondition/TermsAndCondition.jsx";
-import { ManageResume } from "../Components/Drawer/SidebarMenus/JobSeekerSidebarMenus/ManageResume/ManageResume.jsx";
-import ArticleDetails from "../Components/Home/ArticleDetails.jsx";
+import FeaturedPayment from "../pages/payments/featuredpayment/FeaturedPayment.jsx";
+import { Privateroute } from "../components/privateroute/Privateroute.jsx";
+import { ManageJobs } from "../components/drawer/sidebarmenus/adminsidebarmenus/managejob/ManageJobs.admin.jsx";
+import { SkillAssesmentHome } from "../pages/skillassesment/SkillAssesmentHome.jsx";
+import { Assesments } from "../pages/skillassesment/assesments/Assesments.jsx";
+import { AllQuestions } from "../pages/skillassesment/AllQuestions.jsx";
+import { ManageSkillAssessment } from "../components/drawer/sidebarmenus/adminsidebarmenus/manageskillassessment/ManageSkillAssessment.jsx";
+import BuildPortfolio from "../pages/portfolio/BuildPortfolio.jsx";
+import { PortfolionBuilderHome } from "../pages/portfolio/PortfolionBuilderHome.jsx";
+import { SelectPortfolioTemp } from "../pages/portfolio/SelectPortfolioTemp.jsx";
+import { SelectedTemplate } from "../pages/portfolio/categories/SelectedTemplate.jsx";
+import { ManagePortfolio } from "../components/drawer/sidebarmenus/jobseekersidebarmenus/manageportfolio/ManagePortfolio.jsx";
+import { PublicPortfolio } from "../pages/portfolio/categories/PublicPortfolio.jsx";
+import { TermsAndCondition } from "../pages/termsandcondition/TermsAndCondition.jsx";
+import { ManageResume } from "../components/drawer/sidebarmenus/jobseekersidebarmenus/manageresume/ManageResume.jsx";
+import ArticleDetails from "../components/home/ArticleDetails.jsx";
+import { ForgotPassword } from "../features/authentication/ForgotPassword.jsx";
+import { ResetPassword } from "../features/authentication/ResetPassword.jsx";
+import { ChangePassword } from "../features/authentication/ChangePassword.jsx";
 
 
 export const AppRouter = createBrowserRouter([
@@ -85,6 +89,14 @@ export const AppRouter = createBrowserRouter([
         element: <SignIn />,
       },
       {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/reset-password",
+        element: <ResetPassword />,
+      },
+      {
         path: "/blog/blogdetails/:id",
         element: <BlogDetails />,
       },
@@ -102,6 +114,10 @@ export const AppRouter = createBrowserRouter([
       {
         path: "/alljobs",
         element: <JobsShowAll />,
+      },
+      {
+        path: "/job/search-results",
+        element: <JobSearchResults />,
       },
 
       {
@@ -363,6 +379,16 @@ export const AppRouter = createBrowserRouter([
         element: (
           <Privateroute>
             <ManageSkillAssessment />
+          </Privateroute>
+        ),
+      },
+      {
+        path: "change-password",
+        element: (
+          <Privateroute>
+            <div className="p-4 md:p-6 flex justify-center">
+              <ChangePassword />
+            </div>
           </Privateroute>
         ),
       },

@@ -55,3 +55,30 @@ export const UpdateProfileUser = async (formData) => {
     throw new Error(error.response?.data?.message || 'Profile update failed');
   }
 };
+
+export const ForgotPassword = async (email) => {
+  try {
+    const res = await axiosInstance.post('/user/forgot-password', { email });
+    return res.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to send reset link');
+  }
+};
+
+export const ResetPassword = async ({ email, token, newPassword }) => {
+  try {
+    const res = await axiosInstance.post('/user/reset-password', { email, token, newPassword });
+    return res.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Password reset failed');
+  }
+};
+
+export const ChangePassword = async ({ oldPassword, newPassword }) => {
+  try {
+    const res = await axiosInstance.put('/user/change-password', { oldPassword, newPassword });
+    return res.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Password change failed');
+  }
+};

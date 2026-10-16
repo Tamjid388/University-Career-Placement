@@ -1,10 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
+  ChangePassword,
   CurrentUser,
+  ForgotPassword,
   LoginUser,
   LogoutUser,
   RegisterUser,
+  ResetPassword,
   UpdateProfileUser,
 } from "../api/auth.js";
 
@@ -67,6 +70,29 @@ export const useUpdateProfile = () => {
     },
     onError: (error) => {
       console.error("Profile update error:", error.message);
+    },
+  });
+};
+
+export const UseForgotPassword = () => {
+  return useMutation({
+    mutationFn: ForgotPassword,
+  });
+};
+
+export const UseResetPassword = () => {
+  return useMutation({
+    mutationFn: ResetPassword,
+  });
+};
+
+export const UseChangePassword = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ChangePassword,
+    onSuccess: () => {
+      queryClient.removeQueries(["user"]);
     },
   });
 };

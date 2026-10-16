@@ -106,10 +106,14 @@ const userSchema = new mongoose.Schema(
     },
     providerId: { type: String },
     avatar: { type: String },
+
+    resetPasswordToken: { type: String, select: false },
+    resetPasswordExpires: { type: Date, select: false },
   },
   { timestamps: true }
 );
 
 userSchema.index({ role: 1 });
+userSchema.index({ role: 1, createdAt: -1 });
 
 export const User = mongoose.model("User", userSchema);

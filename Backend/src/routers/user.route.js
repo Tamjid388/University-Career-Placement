@@ -1,7 +1,7 @@
 import  express  from 'express';
-import { getCurrentUser, login, logout, register, updateUserProfile } from "../controllers/user.controllers.js";
-import { verifyToken } from './../middlewares/VerifyToken.js';
-import { googleLogin } from '../controllers/firebaseAuthController.js';
+import { changePassword, forgotPassword, getCurrentUser, login, logout, register, resetPassword, updateUserProfile } from "../controllers/user.controller.js";
+import { verifyToken } from './../middlewares/verifytoken.js';
+import { googleLogin } from '../controllers/firebaseauth.controller.js';
 
 
 
@@ -12,6 +12,10 @@ router.post("/login", login);
 router.post("/google-login", googleLogin);
 //logout changed to post from get
 router.post("/logout", logout);
+
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
+router.put("/change-password", verifyToken, changePassword);
 
 
 router.put("/profile/update",verifyToken ,updateUserProfile);

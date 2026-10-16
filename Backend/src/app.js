@@ -12,8 +12,9 @@ import interviewRoute from "./routers/interview.route.js";
 import portfolioRoute from "./routers/portfolio.route.js";
 import paymentRoute from "./routers/payment.route.js"
 import resumeRoute from "./routers/resume.route.js"
-import skillAssesmentRoute from "./routers/skillAssesment.route.js"
+import skillassesmentRoute from "./routers/skillassesment.route.js"
 import statRoute from "./routers/stat.route.js";
+import bookmarkRoute from "./routers/bookmark.route.js";
 
 
 
@@ -50,10 +51,11 @@ app.use("/api/v1/interviews",interviewRoute );
 app.use("/api/v1/portfolio",portfolioRoute ); 
 app.use("/api/v1/payment",paymentRoute); 
 app.use("/api/v1/resumebuilder",resumeRoute)
-app.use("/api/v1/skillAssesment",skillAssesmentRoute)
+app.use("/api/v1/skillAssesment",skillassesmentRoute)
 
 
 app.use('/api/v1/statistics',statRoute)
+app.use('/api/v1/bookmarks',bookmarkRoute)
 
 
 
